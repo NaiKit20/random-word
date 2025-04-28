@@ -1,5 +1,7 @@
-import { Button } from "antd";
+import { Button, Tooltip } from "antd";
+import { GithubOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
+import clsx from "clsx";
 
 function App() {
   const [random_word, setRandomWord] = useState<string[]>(["", "", "", ""]);
@@ -7,6 +9,7 @@ function App() {
   const [reports, setReports] = useState<string[]>([]);
 
   function fnGetRandomWord() {
+    setWord(["", "", "", ""]);
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const result = new Array(4)
       .fill("")
@@ -56,7 +59,6 @@ function App() {
 
   return (
     <div className="min-h-screen flex flex-col justify-evenly items-center relative p-4 md:flex-row">
-      <div className="absolute bottom-0 right-2">{random_word}</div>
       <div className="absolute top-10 right-auto left-auto text-black p-4 flex gap-4">
         <Button
           type="primary"
@@ -112,12 +114,31 @@ function App() {
               .slice()
               .reverse()
               .map((report, index) => (
-                <div key={index}>
+                <div
+                  key={index}
+                  className={clsx(
+                    "text-center text-xl bg-gray-200 p-2 rounded-lg",
+                    index === 0 && "font-bold"
+                  )}
+                >
                   {report} ครั้งที่ {reports.length - index}
                 </div>
               ))}
           </>
         )}
+      </div>
+      <div className="absolute bottom-8 right-8">
+        <Tooltip title="Go to GitHub">
+          <GithubOutlined
+            className="text-[50px] animate-bounce cursor-pointer"
+            onClick={() =>
+              window.open(
+                "https://github.com/NaiKit20/random-word.git",
+                "_blank"
+              )
+            }
+          />
+        </Tooltip>
       </div>
     </div>
   );
